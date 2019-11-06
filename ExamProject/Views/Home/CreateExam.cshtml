@@ -1,0 +1,509 @@
+﻿@model ExamProject.Models.SinavModel
+@{
+    ViewBag.Title = "CreateQuestion";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script>
+    $(document).ready(function myFunction() {
+        var text_context = $(this).$('textarea').values
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Home/Create_Text",
+
+        //    data{Context:text_context},
+        //    dataType: "json",
+        //    success: function (result) {
+        //        $()
+        //    },
+        //    error: function myFunction() {
+        //        alert("değill");
+        //    },
+        //});
+
+
+
+
+        // $.ajax({
+        //    // Request' in yapılacak URL bilgisi
+        //    url: 'Home/Create_Text',
+        //    // Request için gönderilen parametreler Json tipinde gönderiliyor
+        //    data: {
+        //        'Context': $("#exampleTextarea").val(),
+        //    },
+        //    // Ajax işlem tipi belirleniyor GET & POST
+        //    type: "post",
+        //    // Request'in browser üzerinden cache'lenecek mi
+        //    cache: false,
+        //    // AjaxRequest başarılı şekilde sonuçlanırsa
+        //    success: function (result) {
+        //        if (result)
+        //        {
+        //            alert("Gitti");
+        //        }
+        //        else
+        //        {
+        //            alert("Gitmedi");
+        //        }
+        //    },
+        //    // Ajax Request' de hata alınırsa
+        //    error: function (xhr, ajaxOptions, thrownError) {
+
+        //    }
+        //});
+
+
+
+
+    });
+</script>
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+    <div class="m-content">
+        <div class="row">
+            <div class="col-md-12">
+                <!--begin::Portlet-->
+                <div class="m-portlet m-portlet--tab">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <h3 class="m-portlet__head-text">
+                                    Base Form Controls
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet__body">
+                        <!--begin::Form-->
+                        @using (Html.BeginForm("CreateExamContext", "Home", FormMethod.Post, new { @class = "m-form m-form--fit m-form--label-align-right", role = "form", onsubmit = "bla()", @id = "frmBlogOp" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                            <div class="form-group m-form__group row">
+
+                                <label class="col-md-1"></label>
+                                <textarea class="form-control m-input col-md-9" name="Context" id="exampleTextarea" rows="12">
+                                            @foreach (var item in ViewBag.text)
+                                                                {
+                                                                    @Html.Raw(item.InnerText.ToString())
+                                                                }
+                                </textarea>
+                            </div>
+
+                            <div class="m-form__actions">
+                                <div class="row">
+                                    <div class="col-6">
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="submit" class="btn btn-success Question_One_Save">Soruyu Kaydet</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+
+                        @using (Html.BeginForm("CreateQuestion", "Home", FormMethod.Post, new { @class = "m-form m-form--fit m-form--label-align-right", role = "form", @id = "questionForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.QId)
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                            <input type="hidden" id="TextID" name="Text_ID" value=@ViewBag.Text_Id>
+
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-1"></label>
+                                @Html.TextBoxFor(m => m.Soru, new { @class = "col-md-9 form-control m-input", @placeholder = "Soru-1" })
+                                @*<input type="text" class=" col-md-9 form-control m-input" id="Soru" name="Soru" placeholder="Soru">*@
+
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">A</span></div>
+                                    @Html.TextBoxFor(m => m.Option_A, new { @class = "form-control m-input", @placeholder = "A" })
+                                </div>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">B</span></div>
+                                    @Html.TextBoxFor(m => m.Option_B, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">c</span></div>
+                                    @Html.TextBoxFor(m => m.Option_C, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">D</span></div>
+                                    @Html.TextBoxFor(m => m.Option_D, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-6"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">Cevap</span></div>
+                                    @Html.TextBoxFor(m => m.Answer, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="m-form__actions">
+                                <div class="row">
+                                    <div class="col-6">
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="submit" id="Save_One" class="btn btn-success Question_One_Save">Kaydet-1</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <hr />
+                        @using (Html.BeginForm("CreateQuestion", "Home", FormMethod.Post, new { @class = "m-form m-form--fit m-form--label-align-right", role = "form", @id = "questionForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.QId)
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                            <input type="hidden" id="TextID" name="Text_ID" value=@ViewBag.Text_Id>
+
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-1"></label>
+                                @Html.TextBoxFor(m => m.Soru, new { @class = "col-md-9 form-control m-input", @placeholder = "Soru-2" })
+                                @*<input type="text" class=" col-md-9 form-control m-input" id="Soru" name="Soru" placeholder="Soru">*@
+
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">A</span></div>
+                                    @Html.TextBoxFor(m => m.Option_A, new { @class = "form-control m-input", @placeholder = "A" })
+                                </div>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">B</span></div>
+                                    @Html.TextBoxFor(m => m.Option_B, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">c</span></div>
+                                    @Html.TextBoxFor(m => m.Option_C, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">D</span></div>
+                                    @Html.TextBoxFor(m => m.Option_D, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-6"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">Cevap</span></div>
+                                    @Html.TextBoxFor(m => m.Answer, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="m-form__actions">
+                                <div class="row">
+                                    <div class="col-6">
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="submit" class="btn btn-success Question_One_Save">Kaydet-2</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <hr />
+                        @using (Html.BeginForm("CreateQuestion", "Home", FormMethod.Post, new { @class = "m-form m-form--fit m-form--label-align-right", role = "form", @id = "questionForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.QId)
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                            <input type="hidden" id="TextID" name="Text_ID" value=@ViewBag.Text_Id>
+
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-1"></label>
+                                @Html.TextBoxFor(m => m.Soru, new { @class = "col-md-9 form-control m-input", @placeholder = "Soru-3" })
+                                @*<input type="text" class=" col-md-9 form-control m-input" id="Soru" name="Soru" placeholder="Soru">*@
+
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">A</span></div>
+                                    @Html.TextBoxFor(m => m.Option_A, new { @class = "form-control m-input", @placeholder = "A" })
+                                </div>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">B</span></div>
+                                    @Html.TextBoxFor(m => m.Option_B, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">c</span></div>
+                                    @Html.TextBoxFor(m => m.Option_C, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">D</span></div>
+                                    @Html.TextBoxFor(m => m.Option_D, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-6"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">Cevap</span></div>
+                                    @Html.TextBoxFor(m => m.Answer, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="m-form__actions">
+                                <div class="row">
+                                    <div class="col-6">
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="submit" class="btn btn-success Question_One_Save">Kaydet-3</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <hr />
+                        @using (Html.BeginForm("CreateQuestion", "Home", FormMethod.Post, new { @class = "m-form m-form--fit m-form--label-align-right", role = "form", @id = "questionForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.QId)
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                            <input type="hidden" id="TextID" name="Text_ID" value=@ViewBag.Text_Id>
+
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-1"></label>
+                                @Html.TextBoxFor(m => m.Soru, new { @class = "col-md-9 form-control m-input", @placeholder = "Soru-4" })
+                                @*<input type="text" class=" col-md-9 form-control m-input" id="Soru" name="Soru" placeholder="Soru">*@
+
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">A</span></div>
+                                    @Html.TextBoxFor(m => m.Option_A, new { @class = "form-control m-input", @placeholder = "A" })
+                                </div>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">B</span></div>
+                                    @Html.TextBoxFor(m => m.Option_B, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">c</span></div>
+                                    @Html.TextBoxFor(m => m.Option_C, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">D</span></div>
+                                    @Html.TextBoxFor(m => m.Option_D, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-md-6"></label>
+                                <div class="col-md-4 input-group m-input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">Cevap</span></div>
+                                    @Html.TextBoxFor(m => m.Answer, new { @class = "form-control m-input", @placeholder = "B" })
+                                </div>
+                            </div>
+                            <div class="m-form__actions">
+                                <div class="row">
+                                    <div class="col-6">
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="submit" class="btn btn-success Question_One_Save">Kaydet-4</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="m-form__actions">
+                            <div class="row">
+                                <div class="col-6">
+                                </div>
+                                <div class="col-4">
+                                    <a href="@Url.Action("Index","Home", new {@class="btn btn-success" })">
+                                        Sınavı Kaydet
+                                    </a>
+                                    @*<button type="submit" class="btn btn-success Question_One_Save">Sınavı Kaydet</button>*@
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!--end::Form-->
+                </div>
+                <!--end::Portlet-->
+                <!--begin::Portlet-->
+                <!--end::Portlet-->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#Question_One_Save').click(function () {
+            document.getElementById("Question_One_Save").disabled = false;
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+@*<hr />
+<div class="form-group m-form__group row">
+    <label class="col-md-1"></label>
+    <input type="text" class=" col-md-9 form-control m-input" id="exampleInputEmail1" name="Question_Two" placeholder="Soru-2">
+
+
+</div>
+<div class="form-group m-form__group row">
+    <label class="col-md-2"></label>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">A</span></div>
+        <input type="text" class="form-control m-input" name="Option_A" placeholder="A şıkkı" aria-describedby="basic-addon1">
+    </div>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">B</span></div>
+        <input type="text" class="form-control m-input" name="Option_B" placeholder="B şıkkı" aria-describedby="basic-addon1">
+    </div>
+</div>
+<div class="form-group m-form__group row">
+    <label class="col-md-2"></label>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">c</span></div>
+        <input type="text" class="form-control m-input" name="Option_C" placeholder="C şıkkı" aria-describedby="basic-addon1">
+    </div>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">D</span></div>
+        <input type="text" class="form-control m-input" name="Option_D" placeholder="D şıkkı" aria-describedby="basic-addon1">
+    </div>
+</div>
+<div class="form-group m-form__group row">
+    <label class="col-md-6"></label>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">Cevap</span></div>
+        <input type="text" class="form-control m-input" name="Answer" placeholder="Cevap" aria-describedby="basic-addon1">
+    </div>
+</div>
+<div class="m-form__actions">
+    <div class="row">
+        <div class="col-6">
+        </div>
+        <div class="col-4">
+            <button type="submit" class="btn btn-success">2-Kaydet</button>
+            <button type="reset" onclick="location.href='Index'" class="btn btn-secondary">İptal</button>
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="form-group m-form__group row">
+    <label class="col-md-1"></label>
+    <input type="text" class=" col-md-9 form-control m-input" id="exampleInputEmail1" name="Question_Three" placeholder="Soru-3">
+
+
+</div>
+<div class="form-group m-form__group row">
+    <label class="col-md-2"></label>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">A</span></div>
+        <input type="text" class="form-control m-input" name="Option_A" placeholder="A şıkkı" aria-describedby="basic-addon1">
+    </div>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">B</span></div>
+        <input type="text" class="form-control m-input" name="Option_B" placeholder="B şıkkı" aria-describedby="basic-addon1">
+    </div>
+</div>
+<div class="form-group m-form__group row">
+    <label class="col-md-2"></label>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">c</span></div>
+        <input type="text" class="form-control m-input" name="Option_C" placeholder="C şıkkı" aria-describedby="basic-addon1">
+    </div>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">D</span></div>
+        <input type="text" class="form-control m-input" name="Option_D" placeholder="D şıkkı" aria-describedby="basic-addon1">
+    </div>
+</div>
+<div class="form-group m-form__group row">
+    <label class="col-md-6"></label>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">Cevap</span></div>
+        <input type="text" class="form-control m-input" placeholder="Cevap" aria-describedby="basic-addon1">
+    </div>
+</div>
+<div class="m-form__actions">
+    <div class="row">
+        <div class="col-6">
+        </div>
+        <div class="col-4">
+            <button type="submit" class="btn btn-success">3-Kaydet</button>
+            <button type="reset" onclick="location.href='Index'" class="btn btn-secondary">İptal</button>
+        </div>
+    </div>
+</div>
+
+<hr />
+<div class="form-group m-form__group row">
+    <label class="col-md-1"></label>
+    <input type="text" class=" col-md-9 form-control m-input" name="Question_Four" id="exampleInputEmail1" placeholder="Soru-4">
+
+
+</div>
+<div class="form-group m-form__group row">
+    <label class="col-md-2"></label>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">A</span></div>
+        <input type="text" class="form-control m-input" name="Option_A" placeholder="A şıkkı" aria-describedby="basic-addon1">
+    </div>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">B</span></div>
+        <input type="text" class="form-control m-input" name="Option_B" placeholder="B şıkkı" aria-describedby="basic-addon1">
+    </div>
+</div>
+<div class="form-group m-form__group row">
+    <label class="col-md-2"></label>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">c</span></div>
+        <input type="text" class="form-control m-input" name="Option_C" placeholder="C şıkkı" aria-describedby="basic-addon1">
+    </div>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">D</span></div>
+        <input type="text" class="form-control m-input" name="Option_D" placeholder="D şıkkı" aria-describedby="basic-addon1">
+    </div>
+</div>
+<div class="form-group m-form__group row">
+    <label class="col-md-6"></label>
+    <div class="col-md-4 input-group m-input-group">
+        <div class="input-group-prepend"><span class="input-group-text">Cevap</span></div>
+        <input type="text" class="form-control m-input" name="Answer" placeholder="Cevap" aria-describedby="basic-addon1">
+    </div>
+</div>
+<div class="m-form__actions">
+    <div class="row">
+        <div class="col-6">
+        </div>
+        <div class="col-4">
+            <button type="submit" class="btn btn-success">4-Kaydet</button>
+            <button type="reset" onclick="location.href='Index'" class="btn btn-secondary">İptal</button>
+        </div>
+    </div>
+</div>*@

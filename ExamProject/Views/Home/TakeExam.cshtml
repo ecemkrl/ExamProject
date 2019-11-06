@@ -1,0 +1,158 @@
+﻿@model List<ExamProject.Models.SinavModel>
+@{
+    ViewBag.Title = "TakeExam";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+    <div class="m-grid__item m-grid__item--fluid m-wrapper">
+        <div class="m-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--begin::Portlet-->
+                    <div class="m-portlet m-portlet--tab">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <span class="m-portlet__head-icon m--hide">
+                                        <i class="la la-gear"></i>
+                                    </span>
+                                    <h3 class="m-portlet__head-text">
+                                        Base Form Controls
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="m-portlet__body">
+                            <!--begin::Form-->
+                            @{ var counter = 0;}
+                            @foreach (var item in Model)
+                            {
+                                counter = counter + 1;
+                                if (counter == 1)
+                                {
+                                    <div class="form-group m-form__group row">
+
+                                        <label class="col-md-1"></label>
+                                        <textarea class="form-control m-input col-md-9" name="QuestionText" id="exampleTextarea" rows="12">
+                                            @item.Text
+                                            </textarea>
+                                    </div>
+                                }
+
+                                <input type="hidden" id="Answer" name="soru" value=@item.QId>
+                                <input type="hidden" id="TextID" name="Text_ID" value=@ViewBag.Text_Id>
+                                <input type="hidden" class="answer" id="@item.QId" data-answer="@item.Answer" name="Answer" value="">
+                                <div class="form-group m-form__group row">
+
+                                    <label class="col-md-1">SORU-@counter</label>
+                                    <textarea class="form-control m-input col-md-9" name="QuestionText" id="exampleTextarea" rows="3">
+                                            @item.Soru
+                                            </textarea>
+                                </div>
+                                <div class="form-group m-form__group row">
+                                    <label class="col-md-2"></label>
+                                    <div class="col-md-4 input-group m-input-group option">
+                                        <a class="input-group-prepend"><span class="input-group-text" data-id="@item.QId-A">A</span></a>
+                                        <input value="@item.Option_A" type="text" id="@item.QId"  class="form-control m-input metal " placeholder="Email" aria-describedby="basic-addon1">
+                                    </div>
+                                    <div class="col-md-4 input-group m-input-group option">
+                                        <a class="input-group-prepend"><span class="input-group-text" data-id="@item.QId-B">B</span></a>
+                                        <input value="@item.Option_B" type="text" id="@item.QId" class="form-control m-input " placeholder="Email" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row">
+                                    <label class="col-md-2"></label>
+                                    <div class="col-md-4 input-group m-input-group option">
+                                        <a class="input-group-prepend"><span class="input-group-text"  data-id="@item.QId-C">C</span></a>
+                                        <input value="@item.Option_C" type="text" id="@item.QId" class="form-control m-input" placeholder="Email" aria-describedby="basic-addon1">
+                                    </div>
+                                    <div class="col-md-4 input-group m-input-group option">
+                                        <a class="input-group-prepend"><span class="input-group-text" data-id="@item.QId-D">D</span></a>
+                                        <input value="@item.Option_D" type="text" id="@item.QId" class="form-control m-input" placeholder="Email" aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                                @*<div class="m-form__actions">
+                                    <div class="row">
+                                        <div class="col-6">
+                                        </div>
+                                        <div class="col-4">
+                                            <button type="submit" id="@item.QId" class="btn btn-success save">Kaydet</button>
+                                        </div>
+                                    </div>
+                                </div>*@
+                                <hr />
+
+                            }
+
+                            <hr />
+
+                            <div class="m-form__actions">
+                                <div class="row">
+                                    <div class="col-6">
+                                    </div>
+                                    <div class="col-4">
+                                        <button id="kaydet" href="@Url.Action("Index","Home", new {@class="btn btn-success" })">
+                                            Sınavı Bitir
+                                        </button>
+                                        @*<button type="submit" class="btn btn-success Question_One_Save">Sınavı Kaydet</button>*@
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Portlet-->
+                    <!--begin::Portlet-->
+                    <!--end::Portlet-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script>
+        $(".option").click(function () {
+            var selected = $(this).find('.input-group-text').data("id");
+            var answer = $(".answer").data("answer")
+            var parse = selected.split("-");
+            var id = parse[0];
+            var option = parse[1];
+            var question = "#" + id;
+            $(question).val(option);
+            alert(selected);
+            alert(answer);
+            if (option == answer) {
+                alert("oldu")
+                selected.css('background-color', 'red');
+            }
+            
+        });
+        //$("#kaydet").click(function () {
+        //    var elements = document.querySelectorAll('input[data-id]');
+        //    for (i = 0; i < elements.length; i++) {
+        //        var parse = elements[i].split("-");
+                
+        //        var id = parse[0];
+        //        var cevap = parse[1];
+        //        $.ajax({
+        //        url : '/Home/Kontrol/',
+        //        data={id:id,cevap:cevap},
+        //        type:'POST',
+        //        dataType:'json',
+        //            success: function (data) {
+        //                console.log("doğru");
+        //            }, error: function () {
+        //                console.log("yalniş");
+        //            }
+        //    });
+        //    }
+        //    for
+            
+        //});
+    </script>
